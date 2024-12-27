@@ -72,7 +72,7 @@ The following environment variables are required to configure the backend servic
 1. Clone the repository: `git clone <repository_url>`
 2. Install dependencies: `npm install`
 3. Set up environment variables: Update `src/environment/environment.ts` with your API base URL.
-4. Run the development server: `ng serve port=4200`
+4. Run the development server: `ng serve --port=4200`
    - Access the application at [http://localhost:4200](http://localhost:4200)
 
 ## Contact
