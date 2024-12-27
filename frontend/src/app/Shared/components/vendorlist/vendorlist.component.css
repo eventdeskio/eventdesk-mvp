@@ -1,0 +1,17 @@
+.vendorcard {
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  
+  .vendorcard:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .vendorlogo img {
+    filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.1));
+  }
+
+  .vendorlogoimg{
+    background: url("../../../../assets/vendor.svg") no-repeat center;
+    background-size: contain;
+  }
+  

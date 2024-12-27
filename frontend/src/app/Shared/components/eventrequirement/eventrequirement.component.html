@@ -1,0 +1,87 @@
+<div class="bg-[#FFD85F5E] p-5 rounded-lg">
+    <!-- Event Header -->
+    <div class="flex justify-between mb-5">
+        <h2 class="text-xl font-bold" style="font-family: 'Alexandria', sans-serif; color: #2F2F2F">
+            Budget filling
+        </h2>
+        <hr class="w-full m-3" style="height: 2px; background-color: gray;">
+    </div>
+
+    <!-- Requirements Section -->
+    <div class="max-h-[30vh] overflow-y-auto mt-4 mb-4">
+        <form class="mb-4" [formGroup]="budgetAllocationForm" (ngSubmit)="onSubmit()">
+            <!-- Service Dropdown -->
+            <div class="mb-4">
+              <label for="service-select" class="block text-gray-700 mb-1">Service</label>
+              <select
+                id="service-select"
+                class="border p-2 rounded w-full"
+                formControlName="selectedService"
+                (change)="onServiceChange()"
+              >
+                <option *ngFor="let vendor of vendorReturned" [value]="vendor.service">
+                  {{ vendor.service }}
+                </option>
+              </select>
+            </div>
+          
+            <!-- Vendor ID and Budget -->
+            <div class="flex items-center gap-4">
+              <div class="flex-1">
+                <label for="vendor-id" class="block text-gray-700 mb-1">Vendor ID</label>
+                <select
+                  id="vendor-id-select"
+                  class="border p-2 rounded w-full"
+                  formControlName="selectedVendorId"
+                >
+                  <option *ngFor="let vendor of filteredVendors" [value]="vendor.vendor_id">
+                    {{ vendor.vendor_id }}
+                  </option>
+                </select>
+              </div>
+          
+              <div class="flex-1">
+                <label for="budget" class="block text-gray-700 mb-1">Budget</label>
+                <input
+                  id="budget"
+                  type="number"
+                  class="border p-2 rounded w-full"
+                  formControlName="budgetAmount"
+                  placeholder="Enter budget"
+                />
+              </div>
+          
+              <div class="flex-none mt-7">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
+                  Save Budget
+                </button>
+              </div>
+            </div>
+          </form>
+          
+    </div>
+
+    <table class="min-w-full bg-white shadow rounded-lg">
+        <thead>
+          <tr class="bg-[#FFD85FE6] text-gray-600 uppercase text-sm leading-normal">
+            <th class="py-3 px-6 text-left">Service</th>
+            <th class="py-3 px-6 text-left">Vendor</th>
+            <th class="py-3 px-6 text-left">Budget</th>
+            <th class="py-3 px-6 text-left">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of vendorReturned" class="border-b border-gray-200 bg-[#FFD85F33]">
+            <td class="py-3 px-6 text-left">{{ item.service }}</td>
+            <td class="py-3 px-6 text-left">{{ getVendorName(item.vendor_id) }}</td>
+            <td class="py-3 px-6 text-left">{{ item.budget || 'N/A' }}</td>
+            <td class="py-3 px-6 text-left">{{ item.status }}</td>
+          </tr>
+          <tr class="font-bold bg-[#FFD85FE6]">
+            <td colspan="2" class="py-3 px-6 text-right">Total Budget:</td>
+            <td colspan="2" class="py-3 px-6 text-left">{{ calculateTotalBudget() }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+</div>

@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+/* Hide the default scrollbar */
+::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+    background-color: rgba(0, 0, 0, 0.05); /* Background of the scrollbar */
+  }
+  
+  /* Customize the scrollbar thumb with gradient */
+  ::-webkit-scrollbar-thumb {
+    background: #FFD85F;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    box-shadow: inset 0 0 5px #FFD85F80;
+  }
+  
+  /* Change thumb color on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #FFD85F;
+  }
+  

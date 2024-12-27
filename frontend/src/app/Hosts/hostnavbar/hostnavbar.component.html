@@ -1,0 +1,49 @@
+<div class="navbar fixed flex flex-col items-center w-6/6 h-screen p-4 px-12 bg-white shadow-md">
+    <h1 class="text-xl font-bold mb-8" style="font-family: 'Alexandria', sans-serif; color: #2F2F2F;">Event Desk</h1>
+    
+    <!-- Navigation Links -->
+    <nav class="flex flex-col space-y-4 w-full">
+      <div
+        class="nav-item w-full text-center py-2 rounded-lg cursor-pointer"
+        style="font-family: 'Alexandria', sans-serif; color: #2F2F2F;"
+        [ngClass]="{ 'active': selectedNav === 'home' }"
+        [routerLink]="['/host']"
+        (click)="selectNav('home')"
+      >
+        Dashboard
+      </div>
+      <div
+        class="nav-item w-full text-center py-2 rounded-lg cursor-pointer"
+        [ngClass]="{ 'active': selectedNav === 'companies' }"
+        (click)="selectNav('companies')"
+        [routerLink]="['/host/events']"
+        style="font-family: 'Alexandria', sans-serif; color: #2F2F2F;"
+      >
+        Events
+      </div>
+      <div
+        class="nav-item w-full text-center py-2 rounded-lg cursor-pointer"
+        [ngClass]="{ 'active': selectedNav === 'hosts' }"
+        (click)="selectNav('hosts')"
+        [routerLink]="['/host/vendors']"
+        style="font-family: 'Alexandria', sans-serif; color: #2F2F2F;"
+      >
+        Vendors
+      </div>
+      
+     
+    </nav>
+  
+    <!-- Spacer for alignment -->
+    <div class="flex-grow"></div>
+  
+    <!-- Logout Button -->
+    <button
+      class="w-full py-2 rounded-lg font-medium"
+      style="background-color: #FFDE8A; color: #000;"
+      (click)="logout()"
+    >
+      Logout
+    </button>
+</div>
+  

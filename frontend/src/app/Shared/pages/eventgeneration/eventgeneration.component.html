@@ -1,0 +1,156 @@
+<div class="flex w-full h-screen">
+    <!-- Sidebar -->
+    <div class="w-1/6 bg-gray-100">
+        <!-- <app-navbar></app-navbar> -->
+    </div>
+
+    <!-- Main Content -->
+    <div class="w-5/6 p-8">
+        <!-- Page Title -->
+        <h2 class="text-2xl font-bold" style="font-family: 'Alexandria', sans-serif; color: #2F2F2F;">
+            Create Event
+        </h2>
+
+        <div class="p-6 mt-5 bg-white rounded shadow-md w-3/4 mx-auto">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold" style="font-family: 'Alexandria', sans-serif; color: #2F2F2F;">
+                    Event Details
+                </h2>
+                <hr class="w-9/12 m-3" style="height: 2px; background-color: gray;">
+            </div>
+
+            <!-- Form -->
+            <form [formGroup]="createEventForm" (ngSubmit)="onSubmit()">
+                <!-- Title -->
+                <div class="mb-4">
+                    <label for="title" class="block font-medium">
+                        Event Title <span class="text-red-500">*</span>
+                    </label>
+                    <input id="title" formControlName="title" type="text" class="border p-2 w-full rounded" required />
+                </div>
+
+                <!-- Budget and Category -->
+                <div class="mb-4 row flex space-x-4">
+                    <!-- Budget -->
+                    <div class="w-full">
+                        <label for="budget" class="block font-medium">
+                            Total Budget <span class="text-red-500">*</span>
+                        </label>
+                        <input id="budget" formControlName="total_budget" type="number"
+                            class="border p-2 w-full rounded" required />
+                    </div>
+
+                    <!-- Category Dropdown -->
+                    <div class="w-full">
+                        <label for="category" class="block font-medium">
+                            Category <span class="text-red-500">*</span>
+                        </label>
+                        <select formControlName="category" class="border p-2 w-full rounded" required>
+                            <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-4">
+                    <label for="description" class="block font-medium">
+                        Description <span class="text-red-500">*</span>
+                    </label>
+                    <textarea id="description" formControlName="description" class="border p-2 w-full rounded"
+                        required></textarea>
+                </div>
+
+                <!-- Start Date & End Date -->
+                <div class="mb-4 flex space-x-4">
+                    <div class="w-1/2">
+                        <label for="start_date" class="block font-medium">
+                            Start Date <span class="text-red-500">*</span>
+                        </label>
+                        <input id="start_date" formControlName="start_date" type="date"
+                            class="border p-2 w-full rounded" required />
+                    </div>
+                    <div class="w-1/2">
+                        <label for="end_date" class="block font-medium">
+                            End Date <span class="text-red-500">*</span>
+                        </label>
+                        <input id="end_date" formControlName="end_date" type="date" class="border p-2 w-full rounded"
+                            required />
+                    </div>
+                </div>
+                
+            </form>
+            
+
+                <!-- Hosts Section -->
+                <div class="flex justify-between items-center mt-10 mb-4">
+                    <h2 class="text-xl font-bold" style="font-family: 'Alexandria', sans-serif; color: #2F2F2F;">
+                        Host
+                    </h2>
+                    <hr class="w-full m-3" style="height: 2px; background-color: gray;">
+                </div>
+
+
+                <div *ngFor="let host of hostsList; let i = index" class="flex items-center space-x-4 mb-2">
+                    <select [(ngModel)]="host.email"  name="vendor{{i}}" class="w-full border p-2 rounded">
+                        <option *ngFor="let host of hosts" [value]="host.id">{{ host.email }}</option>
+                    </select>
+                    <button type="button" (click)="removeHost(i)" class="px-4 py-2 bg-red-500 text-white rounded">
+                      Remove
+                    </button>
+                  </div>
+            
+                <div class="flex justify-end mb-4">
+                    <button type="button" (click)="addHost()"
+                        class="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600">
+                        + New Host
+                    </button>
+                </div>
+
+                <!-- Requirements Section -->
+                <div class="flex justify-between items-center mt-10 mb-4">
+                    <h2 class="text-xl font-bold" style="font-family: 'Alexandria', sans-serif; color: #2F2F2F">
+                        Requirements
+                    </h2>
+                    <hr class="w-full m-3" style="height: 2px; background-color: gray;">
+                </div>
+
+                <!-- Dynamic Requirements -->
+                <div class="mt-4">
+        
+                    <div *ngFor="let req of requirementsList; let i = index" class="flex items-center space-x-4 mb-2">
+                        <input type="text" [(ngModel)]="req.requirement" placeholder="Enter requirement"
+                            class="border p-2 w-full rounded" name="requirement{{i}}" />
+                        <select [(ngModel)]="req.vendor_id" name="vendor{{i}}" class="border p-2 rounded">
+                            <option *ngFor="let vendor of vendors" [value]="vendor.id">{{ vendor.email }}</option>
+                        </select>
+                        <!-- <input type="text" [(ngModel)]="req.requirement" placeholder="Enter requirement"
+                            class="border p-2 w-full rounded hidden" name="requirement{{i}}" /> -->
+                        
+                        <button type="button" (click)="removeRequirement(i)"
+                            class="px-4 py-2 bg-red-500 text-white rounded">
+                            Remove
+                        </button>
+                    </div>
+                    <button type="button" (click)="addRequirement()" class="px-4 py-2 bg-blue-500 text-white rounded">
+                        + Add Requirement
+                    </button>
+                </div>
+
+                <form [formGroup]="createEventForm" (ngSubmit)="onSubmit()">
+                    <!-- Submit Buttons -->
+                    <div class="flex justify-end space-x-4">
+                        <button type="button" (click)="onClose()" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400">
+                            Cancel  
+                        </button>
+                        <button type="submit" 
+                            class="px-4 py-2 rounded bg-yellow-400 hover:bg-yellow-500 text-black">
+                            Create Event
+                        </button>
+                    </div>
+                </form>
+                
+            
+        </div>
+    </div>
+</div>

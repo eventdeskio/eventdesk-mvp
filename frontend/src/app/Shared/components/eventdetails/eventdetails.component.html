@@ -1,0 +1,70 @@
+<div class="bg-[#FFD85F5E] p-5  rounded-lg">
+
+    <!-- Event Header -->
+    <div class="flex justify-between  mb-5">
+        <!-- Event Info (Left) -->
+        <div class="w-fullmax-w-[600px]">
+            <h1 class="text-2xl font-medium text-black">{{ eventName }}</h1>
+            
+            <div class="bg-[#FFD85F] w-fit p-1 my-2 px-6 rounded-full shadow">
+                <p class="text-gray-800 text-xs ">{{ eventCategory }}</p>
+            </div>
+
+            <hr class="w-11/12 my-3" style="height: 2px; background-color: gray;">
+
+            <p class="text-lg text-gray-700">{{ eventDescription }}</p>
+        </div>
+
+        <!-- Admin Info (Right) -->
+        <div class="flex-none w-1/4 max-w-[300px] h-28 bg-[#FFD85F] rounded-lg p-4 shadow-md text-left">
+            <label class="font-medium text-black">Event handled by:</label>
+            <h3 class="text-md mt-2 text-gray-800">{{ adminInfo.data.full_name }}</h3>
+            <p class="text-sm text-gray-600">{{ adminInfo.data.email }}</p>
+            <!-- <p class="text-sm text-gray-600">{{ adminInfo.data.helpline_number }}</p> -->
+        </div>
+    </div>
+
+
+
+    <!-- Event Info -->
+    <div class="grid grid-cols-2 gap-4 mb-5">
+
+        <div class="bg-white p-4 rounded shadow">
+            <label class="font-bold text-black">Start Date:</label>
+            <p class="text-gray-800">{{ eventStartDate | date: 'fullDate' }}</p>
+        </div>
+        <div class="bg-white p-4 rounded shadow">
+            <label class="font-bold text-black">End Date:</label>
+            <p class="text-gray-800">{{ eventEndDate | date: 'fullDate' }}</p>
+        </div>
+        <!-- <div class="bg-white p-4 rounded shadow">
+        <label class="font-bold text-black">Total Budget:</label>
+        <p class="text-gray-800">{{ eventBudget | currency: 'INR' }}</p>
+      </div> -->
+    </div>
+
+    <!-- Hosts and Vendors -->
+    <div class="flex-col">
+        <div class="w-full">
+            <h2 class="text-xl font-medium text-black my-4">Hosts</h2>
+            <div class="flex overflow-x-auto space-x-4 p-2 rounded">
+                <div *ngFor="let host of hostInfo"
+                    class="flex-none w-1/4 max-w-[300px] bg-[#FFD85F5E] rounded-lg p-4 shadow-md text-center">
+                    <h3 class="text-lg font-medium text-gray-800">{{ host.data.full_name }}</h3>
+                    <p class="text-sm text-gray-600">{{ host.data.email }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="w-full">
+            <h2 class="text-xl font-medium text-black my-4">Vendors</h2>
+            <div class="flex overflow-x-auto space-x-4 p-2 rounded">
+                <div *ngFor="let vendor of vendorInfo"
+                    class="flex-none w-1/4 max-w-[300px] bg-[#FFD85F5E] rounded-lg p-4 shadow-md text-center">
+                    <h3 class="text-lg font-medium text-gray-800">{{ vendor.data.full_name }}</h3>
+                    <p class="text-sm text-gray-600">{{ vendor.data.email }}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

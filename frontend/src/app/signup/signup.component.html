@@ -1,0 +1,84 @@
+   <!-- Modal Overlay -->
+<div class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+  <!-- Modal Content -->
+  <div class="bg-white  overflow-y-auto rounded-lg shadow-lg w-1/2 max-h-[90vh]">
+    <!-- Modal Header -->
+    <div class="px-6 py-4  flex justify-between items-center" style="font-family: 'Alexandria', sans-serif; color: #2F2F2F;">
+      <h2 class="text-xl font-semibold" style="font-family: 'Alexandria', sans-serif;">Event Desk</h2>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="px-6 pb-4">
+      <h3 class="text-lg font-medium text-gray-700 mb-4" style="font-family: 'Alexandria', sans-serif; color: #2F2F2F;">Welcome! Please fill out your details below:</h3>
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="flex flex-col space-y-4">
+        <!-- Email Field -->
+        <div>
+          <!-- <label for="email"  class="label text-gray-700 mb-1">Email:</label> -->
+          <label for="email" class="label text-gray-700 mb-1">Email:</label>
+          <input id="email" formControlName="email" type="email"
+          class="input w-full px-4 py-2 my-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#705F2A]" />
+          <!-- <input id="email" formControlName="email" type="email" 
+            class="input w-full px-4 py-2 my-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#705F2A]"/> -->
+        </div>
+
+        <!-- Password Field -->
+        <div>
+          <label for="password" class="label text-gray-700 mb-1">Password:</label>
+          <input id="password" formControlName="password" type="password"
+          class="input w-full px-4 py-2 my-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#705F2A]" />
+          <!-- <input id="password" formControlName="password" type="password" 
+            class="input w-full px-4 py-2 my-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#705F2A]"/> -->
+        </div>
+
+        <!-- Full Name Field -->
+        <div>
+          <label for="full_name"  class="label text-gray-700 mb-1">Full Name:</label>
+          <!-- <input id="full_name" formControlName="full_name" type="text" 
+            class="input w-full px-4 py-2 my-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#705F2A]"/> -->
+            <input id="full_name" formControlName="full_name" type="text"
+          class="input w-full px-4 py-2 my-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#705F2A]" />
+        </div>
+
+        <!-- Role Dropdown -->
+        <div>
+          <label for="role" class="label text-gray-700 mb-1">Role:</label>
+          
+          <div class="flex space-x-4">
+            <label class="inline-flex items-center">
+              <input type="radio" id="role-admin" formControlName="role" value="ADMIN" class="form-radio text-indigo-600" (change)="onRoleChange($event)">
+              <span class="ml-2">Admin</span>
+            </label>
+        
+            <label class="inline-flex items-center">
+              <input type="radio" id="role-host" formControlName="role" value="HOST" class="form-radio text-indigo-600" (change)="onRoleChange($event)">
+              <span class="ml-2">Host</span>
+            </label>
+        
+            <label class="inline-flex items-center">
+              <input type="radio" id="role-vendor" formControlName="role" value="VENDOR" class="form-radio text-indigo-600" (change)="onRoleChange($event)">
+              <span class="ml-2">Vendor</span>
+            </label>
+          </div>
+        </div>
+        
+        
+        
+
+        <!-- Company Information Fields (Shown Only for Admin Role) -->
+        <div *ngIf="isAdminRole">
+          <label for="company" class="label text-gray-700 mb-1">Company:</label>
+            <select formControlName="company_name"   class="w-full border p-2 rounded">
+                <option *ngFor="let company of companienames" [value]="company.company_name">{{ company.company_name }}</option>
+            </select>
+
+          </div>
+
+        <!-- Submit Button -->
+        <button type="submit" [disabled]="signupForm.invalid" 
+          class="w-full py-2 px-4 bg-[#FFD85FCC] text-white rounded-md shadow-sm hover:[#FFD85FFA] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+          Sign Up
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
