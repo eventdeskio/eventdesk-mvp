@@ -43,7 +43,7 @@ jobs:
     - name: Tag Docker images
       run: |
         # Tag each service image based on the commit SHA
-        docker-compose -f docker-compose.yml images | awk '{if (NR>1) print $1}' | xargs -I {} docker tag {}:latest harish130615/{}:${{ github.sha }}
+        docker-compose -f docker-compose.yml images | awk '{if (NR>1) print $1}' | xargs -I {} docker tag {}:latest rajaramachandran/eventdesk/{}:${{ github.sha }}
 
     - name: Push Docker images to Docker Hub
       run: |
