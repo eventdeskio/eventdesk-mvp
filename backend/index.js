@@ -52,6 +52,16 @@ app.get('/api/health', (req, res) => {
   res.status(200).json(response);
 });
 
+app.get('/api/testdeployment', (req, res) => {
+  console.log(process.env.ENV_TEST || 'not available****************************************************')
+  const response = {
+      status: "test ok",
+      version: "1.0.0",
+      environment: process.env.ENV_TEST || "not available****************************************************" 
+  };
+
+  res.status(200).json(response);
+});
 
 app.post('/api/createAdmin', authenticateToken, async (req, res) => {
     
