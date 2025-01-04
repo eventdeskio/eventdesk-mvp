@@ -1,81 +1,11 @@
 version: '3.8'
 
 services:
-  # Define the backend service (Node.js Express)
   backend:
     build:
-      context: ./backend  # Path to your backend folder
-    image: rajaramachandran/eventdesk:backend_v1  # Specify the image name with version v1
-    # ports:
-    #   - "5000:5000"  # Expose the port 3000 on the host and map it to the container
-    # environment:
-    #   - NODE_ENV=development
-    #   - DB_USER=postgres
-    #   - DB_HOST=postgres
-    #   - DB_NAME=students
-    #   - DB_PASS=Harish@9360461148
-    #   - DB_PORT=5432
-    # depends_on:
-    #   - postgres  # Ensure the backend service waits for the postgres service to start
-    # networks:
-    #   - app-network  # Add the backend to a common network
-    # restart: always  # Automatically restart if the container crashes or stops
-    # healthcheck:
-    #   test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
-    #   interval: 30s
-    #   timeout: 10s
-    #   retries: 3
-    # deploy:
-    #   resources:
-    #     limits:
-    #       cpus: "1.0"
-    #       memory: "512M"
-
-  # Define the PostgreSQL service
-  # postgres:
-  #   image: postgres:17  # You can use any version of PostgreSQL
-  #   environment:
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_PASSWORD: Harish@9360461148
-  #     POSTGRES_DB: students
-  #   volumes:
-  #     - postgres_data:/var/lib/postgresql/data  # Persistent data storage
-  #     # - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d  # Initialization scripts
-  #   ports:
-  #     - "5432:5432"  # Expose the port 5432 on the host
-  #   networks:
-  #     - app-network  # Add the PostgreSQL service to the same network
-  #   restart: always  # Ensure the PostgreSQL container restarts on failure or shutdown
-
-  # Define the frontend service (Angular + Nginx)
+      context: ./backend  
+    image: rajaramachandran/eventdesk:backend_v1  
   frontend:
     build:
-      context: ./frontend  # Path to your frontend folder
-    image: rajaramachandran/eventdesk:frontend_v1  # Specify the image name with version v1
-#     ports:
-#       - "80:80"  # Expose port 80 (Nginx serves the Angular app here)
-#     depends_on:
-#       backend:  # Ensure frontend waits for backend to start
-#         condition: service_healthy
-#     networks:
-#       - app-network  # Add frontend to the same network
-#     restart: always  # Automatically restart if the container crashes or stops
-#     healthcheck:
-#       test: ["CMD", "curl", "-f", "http://localhost"]
-#       interval: 30s
-#       timeout: 10s
-#       retries: 3
-#     deploy:
-#       resources:
-#         limits:
-#           cpus: "0.5"
-#           memory: "256M"
-
-# # Define volumes for persistent data storage
-# volumes:
-#   postgres_data:
-
-# # Define networks for communication between services
-# networks:
-#   app-network:
-#     driver: bridge
+      context: ./frontend 
+    image: rajaramachandran/eventdesk:frontend_v1  
