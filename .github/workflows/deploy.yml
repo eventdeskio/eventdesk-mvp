@@ -16,7 +16,7 @@ jobs:
 
       - name: Get Commit SHA
         id: get-sha
-        run: echo "::set-output name=sha::${GITHUB_SHA}"
+        run: echo "sha=${GITHUB_SHA}" >> $GITHUB_ENV
 
   build:
     runs-on: ubuntu-latest
@@ -32,7 +32,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ needs.checkout.outputs.sha }}
+          key: ${{ runner.os }}-buildx-${{ env.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
 
@@ -51,7 +51,7 @@ jobs:
         id: save-images
 
       - name: Upload Images List
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: built-images
           path: built-images.txt
@@ -64,7 +64,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Download Built Images List
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: built-images
 
@@ -77,8 +77,8 @@ jobs:
       - name: Tag and Push Docker images
         run: |
           while read -r image; do
-            docker tag ${image}:latest rajaramachandran/eventdesk/${image}:${{ needs.checkout.outputs.sha }}
-            docker push rajaramachandran/eventdesk/${image}:${{ needs.checkout.outputs.sha }}
+            docker tag ${image}:latest rajaramachandran/eventdesk/${image}:${{ env.sha }}
+            docker push rajaramachandran/eventdesk/${image}:${{ env.sha }}
           done < built-images.txt
 
       - name: SSH to VPS and deploy Docker container
