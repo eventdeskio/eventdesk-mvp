@@ -49,41 +49,76 @@ jobs:
       run: |
         # Push all images defined in your docker-compose.yml to Docker Hub
         docker-compose -f docker-compose.yml push
-
   Trigger-Deployement:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
-    - name: Trigger Frontend Deployment
-      run: |
-        response=$(curl -w '%{http_code}' -o response.json -s -X POST "https://dokploy.eventdesk.io/api/compose.deploy" \
-          -H "Authorization: Bearer ${{ secrets.DOKPLOY_TOKEN }}" \
-          -H "Content-Type: application/json" \
-          -d "{\"composeId\": \"${{ secrets.FRONTEND_COMPOSE_ID }}\"}")
-        echo "FRONTEND HTTP Status Code: $response"
-        echo "Response Body:"
-        cat response.json
+      - name: Install sshpass
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y sshpass
+      - name: Trigger Frontend Deployement
+        run: |
+          sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
+            # Provide sudo password when prompted
+            echo "${{ secrets.VPS_PASSWORD }}" | sudo -S docker stop eventdesk-frontend-ywtnnc-frontend-1
+            echo "${{ secrets.VPS_PASSWORD }}" | sudo -S docker rm eventdesk-frontend-ywtnnc-frontend-1
+            echo "${{ secrets.VPS_PASSWORD }}" | sudo -S docker pull rajaramachandran/eventdesk:frontend_v1
+            
+            response=$(curl -w '%{http_code}' -o response.json -s -X POST "https://dokploy.eventdesk.io/api/compose.deploy" \
+            -H "Authorization: Bearer ${{ secrets.DOKPLOY_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"composeId\": \"${{ secrets.FRONTEND_COMPOSE_ID }}\"}")
+            echo "FRONTEND HTTP Status Code: $response"
+          EOF
+      - name: Trigger Backend Deployement
+        run: |
+          sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
+            # Provide sudo password when prompted
+            echo "${{ secrets.VPS_PASSWORD }}" | sudo -S docker stop eventdesk-backend-6lgixm-backend-1
+            echo "${{ secrets.VPS_PASSWORD }}" | sudo -S docker rm eventdesk-backend-6lgixm-backend-1
+            echo "${{ secrets.VPS_PASSWORD }}" | sudo -S docker pull rajaramachandran/eventdesk:backend_v1
+            
+            response=$(curl -w '%{http_code}' -o response.json -s -X POST "https://dokploy.eventdesk.io/api/compose.deploy" \
+            -H "Authorization: Bearer ${{ secrets.DOKPLOY_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"composeId\": \"${{ secrets.BACKEND_COMPOSE_ID }}\"}")
+            echo "BACKEND HTTP Status Code: $response"
+          EOF
 
-    - name: Trigger Backend Deployment
-      run: |
-        response=$(curl -w '%{http_code}' -o response.json -s -X POST "https://dokploy.eventdesk.io/api/compose.deploy" \
-          -H "Authorization: Bearer ${{ secrets.DOKPLOY_TOKEN }}" \
-          -H "Content-Type: application/json" \
-          -d "{\"composeId\": \"${{ secrets.BACKEND_COMPOSE_ID }}\"}")
-        echo "BACKEND HTTP Status Code: $response"
-        echo "Response Body:"
-        cat response.json
-
-
-
-
-    # - name: Trigger Frontend Deployement
-    #   run: |
-    #     sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
-    #       curl -X "POST" "https://dokploy.eventdesk.io/api/compose.deploy" -H "accept: application/json" -H "Content-Type: application/json" -H "Authorization: Bearer ${{secrets.DOKPLOY_TOKEN}}" -d "{\"composeId\": \"${{secrets.FRONTEND_COMPOSE_ID}}\"}"
-    #     EOF
-    # - name: Trigger Backend Deployement
-    #   run: |
-    #     sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
-    #       curl -X "POST" "https://dokploy.eventdesk.io/api/compose.deploy" -H "accept: application/json" -H "Content-Type: application/json" -H "Authorization: Bearer ${{secrets.DOKPLOY_TOKEN}}" -d "{\"composeId\": \"${{secrets.BACKEND_COMPOSE_ID}}\"}"
-    #     EOF
+  # Trigger-Deployement:
+  #   needs: build-and-push
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Install sshpass
+  #     run: |
+  #       sudo apt-get update
+  #       sudo apt-get install -y sshpass
+  #   - name: Trigger Frontend Deployement
+  #     run: |
+  #       sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
+  #       **modify here (since it's a sudo command if it prompts for password use secrets.VPS_password)**
+  #       **1.stop docker -  sudo docker stop eventdesk-frontend-ywtnnc-frontend-1**
+  #       **2. remove it - sudo docker rm eventdesk-frontend-ywtnnc-frontend-1**
+  #       **3. pull recent version -  sudo docker pull rajaramachandran/eventdesk:frontend_v1 ** 
+  #        response=$(curl -w '%{http_code}' -o response.json -s -X POST "https://dokploy.eventdesk.io/api/compose.deploy" \
+  #         -H "Authorization: Bearer ${{ secrets.DOKPLOY_TOKEN }}" \
+  #         -H "Content-Type: application/json" \
+  #         -d "{\"composeId\": \"${{ secrets.FRONTEND_COMPOSE_ID }}\"}")
+  #       echo "FRONTEND HTTP Status Code: $response"
+        
+  #       EOF
+  #   - name: Trigger Backend Deployement
+  #     run: |
+  #       sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
+  #         **modify here (since it's a sudo command if it prompts for password use secrets.VPS_password)**
+  #       **1.stop docker -  sudo docker stop  eventdesk-backend-6lgixm-backend-1**
+  #       **2. remove it - sudo docker stop  eventdesk-backend-6lgixm-backend-1**
+  #       **3. pull recent version -  sudo docker pull rajaramachandran/eventdesk:backend_v1 ** 
+        
+  #          response=$(curl -w '%{http_code}' -o response.json -s -X POST "https://dokploy.eventdesk.io/api/compose.deploy" \
+  #         -H "Authorization: Bearer ${{ secrets.DOKPLOY_TOKEN }}" \
+  #         -H "Content-Type: application/json" \
+  #         -d "{\"composeId\": \"${{ secrets.BACKEND_COMPOSE_ID }}\"}")
+  #       echo "BACKEND HTTP Status Code: $response"
+  #       EOF

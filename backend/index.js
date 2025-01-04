@@ -53,11 +53,11 @@ app.get('/api/health', (req, res) => {
 });
 
 app.get('/api/testdeployment', (req, res) => {
-  console.log(process.env.ENV_TEST || 'not available12345678910')
+  console.log(process.env.ENV_TEST || 'not working!')
   const response = {
       status: "test ok",
       version: "1.0.0",
-      environment: process.env.ENV_TEST || "not available12345678910" 
+      environment: process.env.ENV_TEST || "not working!" 
   };
 
   res.status(200).json(response);
