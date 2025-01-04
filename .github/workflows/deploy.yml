@@ -51,6 +51,7 @@ jobs:
         docker-compose -f docker-compose.yml push
 
   Trigger-Deployement:
+    needs: build-and-push
     runs-on: ubuntu-latest
     steps:
     - name: Install sshpass
