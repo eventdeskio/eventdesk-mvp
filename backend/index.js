@@ -13,7 +13,7 @@ const superadmin = require('./routes/superAdmin')
 
 
 const corsOptions = {
-    origin: ['http://localhost:4200', 'https://eventdesk.io'], // Allowed origins
+    origin: '*', // Allowed origins
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
     allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
     credentials: true, 
@@ -40,6 +40,16 @@ app.use('/api/superadmin',superadmin)
 
 app.get('/api/dashboard', authenticateToken, (req, res) => {
     res.json({ message: `Welcome, ${req.user.role}!` });
+});
+
+app.get('/api/health', (req, res) => {
+  const response = {
+      status: "healthy",
+      version: "1.0.0",
+      environment: process.env.NODE_ENV || "development" 
+  };
+
+  res.status(200).json(response);
 });
 
 
