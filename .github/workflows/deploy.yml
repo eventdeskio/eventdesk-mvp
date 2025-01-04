@@ -1,0 +1,63 @@
+name: Build and Deploy App with Docker Compose
+
+on:
+  push:
+    branches:
+      - main  
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Cache Docker layers
+      uses: actions/cache@v2
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-buildx-
+
+    - name: Install Docker Compose
+      run: |
+        sudo curl -L "https://github.com/docker/compose/releases/download/v2.17.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
+        docker-compose --version  # Verify installation
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }} 
+        password: ${{ secrets.DOCKER_PASSWORD }}  
+
+    - name: Build Docker images with Docker Compose
+      run: |
+        # Use docker-compose to build the images
+        docker-compose -f docker-compose.yml build
+
+    - name: Tag Docker images
+      run: |
+        # Tag each service image based on the commit SHA
+        docker-compose -f docker-compose.yml images | awk '{if (NR>1) print $1}' | xargs -I {} docker tag {}:latest harish130615/{}:${{ github.sha }}
+
+    - name: Push Docker images to Docker Hub
+      run: |
+        # Push all images defined in your docker-compose.yml to Docker Hub
+        docker-compose -f docker-compose.yml push
+
+    - name: Install sshpass
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y sshpass
+
+    - name: SSH to VPS and deploy Docker container
+      run: |
+        sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
+          cd /home/harish/eventdesk  # Adjust to your app directory on the VPS
+          mkdir test
+        EOF
