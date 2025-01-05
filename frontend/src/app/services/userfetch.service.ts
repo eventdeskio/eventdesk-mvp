@@ -7,8 +7,7 @@ import { environment } from '../../environment/environment';
   providedIn: 'root'
 })
 export class UserfetchService {
-  private baseUrl = 'http://localhost:3000/api'; // Base URL for your API
-
+  private baseUrl = environment.baseUrl; 
   constructor(private http: HttpClient) {}
 
   fetchAdminInfo(id: any): Observable<any> {
