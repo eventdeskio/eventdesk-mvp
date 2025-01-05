@@ -19,10 +19,12 @@ jobs:
 
     - name: Install dependencies
       run: |
+        cd backend
         npm install  # Install npm dependencies
 
     - name: Run tests
       run: |
+        cd backend
         npm test  # Run your unit tests
 
     - name: Set up Docker Buildx
