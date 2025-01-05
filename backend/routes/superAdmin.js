@@ -35,7 +35,7 @@ router.put('/update-admin', async (req, res) => {
 
   try {
     // Step 1: Fetch the company with the specified company_name
-    const result = await client.query(
+    const result = await pool.query(
       'SELECT * FROM companies WHERE company_name = $1',
       [company_name]
     );
@@ -54,7 +54,7 @@ router.put('/update-admin', async (req, res) => {
     }
 
     // Step 4: Update the company record with the new admin_id array
-    await client.query(
+    await pool.query(
       'UPDATE companies SET admin_id = $1 WHERE company_name = $2',
       [adminIds, company_name]
     );

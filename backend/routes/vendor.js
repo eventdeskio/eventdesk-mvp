@@ -32,7 +32,9 @@ router.get("/", authenticateToken, async (req, res) => {
 router.post("/withid", authenticateToken, async (req, res) => {
 
     event_id=req.body.event_id
-
+    if(!event_id){
+        return res.status(400).json({ message: "Event id is required" })
+    }
     query = "SELECT * FROM vendor_assignments where event_id= $1"
 
     try {
