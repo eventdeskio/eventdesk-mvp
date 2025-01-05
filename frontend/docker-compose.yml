@@ -15,7 +15,7 @@ services:
       retries: 3
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.frontend.rule=Host(`eventdesk.io`)  && !PathPrefix(`/api`) && PathPrefix(`/`)"
+      - "traefik.http.routers.frontend.rule=Host(`eventdesk.io`)"
       - "traefik.http.routers.frontend.entrypoints=websecure"
       - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
 
