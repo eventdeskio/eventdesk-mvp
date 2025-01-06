@@ -18,11 +18,7 @@ services:
       - "traefik.http.routers.frontend.rule=Host(`eventdesk.io`)"
       - "traefik.http.routers.frontend.entrypoints=websecure"
       - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
-      - "traefik.http.middlewares.strip-prefix.stripprefix.prefixes=/api"
-      - "traefik.http.middlewares.redirect-to-root.redirectregex.regex=^(?!/api)(.*)"
-      - "traefik.http.middlewares.redirect-to-root.redirectregex.replacement=/\\1"
-      - "traefik.http.routers.frontend.middlewares=strip-prefix,redirect-to-root"
-
+      - "traefik.http.services.frontend.loadbalancer.server.port=80"
 
 networks:
   eventdesk-network:
