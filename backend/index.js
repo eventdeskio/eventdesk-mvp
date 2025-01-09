@@ -10,6 +10,11 @@ const jwt = require('jsonwebtoken');
 const cors = require('cors'); 
 const app = express();
 const superadmin = require('./routes/superAdmin')
+const client = require("prom-client");
+
+const collect_defualt_metrics = client.collectDefaultMetrics;
+collect_defualt_metrics({ register: client.register });
+
 
 
 const corsOptions = {
@@ -41,7 +46,11 @@ app.use('/api/superadmin',superadmin)
 app.get('/api/dashboard', authenticateToken, (req, res) => {
     res.json({ message: `Welcome, ${req.user.role}!` });
 });
-
+app.get("/metrics", async (req, res) => {
+  res.setHeader("content-Type", client.register.contentType);
+  const metrics = await client.register.metrics();
+  res.send(metrics)
+});
 app.get('/api/health', (req, res) => {
   const response = {
       status: "healthy",

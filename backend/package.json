@@ -19,6 +19,8 @@
     "nodemon": "^3.1.9",
     "pg": "^8.13.1",
     "pg-mock": "^1.0.1",
-    "supertest": "^7.0.0"
+    "supertest": "^7.0.0",
+    "prom-client": "^15.1.3"
+
   }
 }
