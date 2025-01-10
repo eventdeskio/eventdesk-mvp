@@ -9,18 +9,18 @@ const pool = require('./config/db');
 const jwt = require('jsonwebtoken');
 const cors = require('cors'); 
 const app = express();
-const superadmin = require('./routes/superAdmin')
-const client = require("prom-client");
-
-const collect_defualt_metrics = client.collectDefaultMetrics;
-collect_defualt_metrics({ register: client.register });
-
+const superadmin = require('./routes/superAdmin');
+const {
+  monitoringMiddleware,
+  getMetrics,
+  contentType,
+} = require("./monitoring");
 
 
 const corsOptions = {
-    origin: '*', // Allowed origins
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
-    allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+    origin: '*', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'], 
     credentials: true, 
   };
 
@@ -29,6 +29,8 @@ app.use(cors(corsOptions));
 
 
 app.use(express.json());
+
+app.use(monitoringMiddleware); 
 
 app.use('/api/auth', authRoutes);
 
@@ -46,11 +48,13 @@ app.use('/api/superadmin',superadmin)
 app.get('/api/dashboard', authenticateToken, (req, res) => {
     res.json({ message: `Welcome, ${req.user.role}!` });
 });
+
 app.get("/metrics", async (req, res) => {
-  res.setHeader("content-Type", client.register.contentType);
-  const metrics = await client.register.metrics();
-  res.send(metrics)
+  res.setHeader("content-Type", contentType);
+  const metrics = await getMetrics();
+  res.send(metrics);
 });
+
 app.get('/api/health', (req, res) => {
   const response = {
       status: "healthy",

@@ -4,6 +4,9 @@ const pool = require('../config/db');
 const jwt = require('jsonwebtoken');
 
 const router = express.Router();
+const {
+  userSignupCounter,
+} = require("../monitoring");
 
 router.post('/signup', async (req, res) => {
   const { email, password, full_name, role } = req.body;
@@ -26,7 +29,12 @@ router.post('/signup', async (req, res) => {
        VALUES ($1, $2, $3, $4) RETURNING id, email, role`,
       [email, hashedPassword, full_name, role]
     );
-
+    try{
+      console.log("Incrementing userSignupCounter");
+      userSignupCounter.inc(); 
+    }catch(e){
+      console.log(e , "------monitoring error")
+    }
     res.status(201).json({
       message: 'User created successfully',
       user: newUser.rows[0],
