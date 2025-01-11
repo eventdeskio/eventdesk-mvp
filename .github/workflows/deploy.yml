@@ -75,11 +75,7 @@ jobs:
       - name: Trigger Frontend Deployement
         run: |
           sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
-            # Provide sudo password when prompted
-            echo "${{ secrets.VPS_PASSWORD }}" | sudo -S docker stop eventdesk-frontend-ywtnnc-frontend-1
-            echo "${{ secrets.VPS_PASSWORD }}" | sudo -S docker rm eventdesk-frontend-ywtnnc-frontend-1
-            echo "${{ secrets.VPS_PASSWORD }}" | sudo -S docker pull rajaramachandran/eventdesk:frontend_v1
-            
+             
             response=$(curl -w '%{http_code}' -o response.json -s -X POST "https://dokploy.eventdesk.io/api/compose.deploy" \
             -H "Authorization: Bearer ${{ secrets.DOKPLOY_TOKEN }}" \
             -H "Content-Type: application/json" \
@@ -89,11 +85,7 @@ jobs:
       - name: Trigger Backend Deployement
         run: |
           sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
-            # Provide sudo password when prompted
-            echo "${{ secrets.VPS_PASSWORD }}" | sudo -S docker stop eventdesk-backend-6lgixm-backend-1
-            echo "${{ secrets.VPS_PASSWORD }}" | sudo -S docker rm eventdesk-backend-6lgixm-backend-1
-            echo "${{ secrets.VPS_PASSWORD }}" | sudo -S docker pull rajaramachandran/eventdesk:backend_v1
-            
+             
             response=$(curl -w '%{http_code}' -o response.json -s -X POST "https://dokploy.eventdesk.io/api/compose.deploy" \
             -H "Authorization: Bearer ${{ secrets.DOKPLOY_TOKEN }}" \
             -H "Content-Type: application/json" \
