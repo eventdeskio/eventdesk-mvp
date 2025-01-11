@@ -7,7 +7,7 @@
   export const environment = {
     production: !isLocalhost,
     baseUrl: isLocalhost
-      ? 'http://localhost:3000/api'
-      : 'https://eventdesk.io/api',
+      ? 'http://localhost:3000'
+      : 'https://api.eventdesk.io',
   };
   

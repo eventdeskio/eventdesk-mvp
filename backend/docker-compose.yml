@@ -13,13 +13,13 @@ services:
       - dokploy-network
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
     labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.backend.rule=Host(`eventdesk.io`) && PathPrefix(`/api`)"
+        - "traefik.http.routers.backend.rule=Host(`api.eventdesk.io`)"
         - "traefik.http.routers.backend.entrypoints=websecure"
         - "traefik.http.routers.backend.tls.certresolver=letsencrypt"
         - "traefik.http.services.backend.loadbalancer.server.port=5000"

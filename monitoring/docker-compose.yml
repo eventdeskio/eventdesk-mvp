@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  prom-server:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - /home/harish/eventdesk/prometheus-config.yml:/etc/prometheus/prometheus.yml 
+    networks:
+      - dokploy-network
+
+  grafana:
+    image: grafana/grafana-enterprise
+    container_name: grafana
+    restart: unless-stopped
+    environment:
+      - GF_SERVER_HTTP_PORT=3300
+    ports:
+      - '3300:3300'
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    networks:
+      - dokploy-network
+
+volumes:
+  grafana-storage: {}
+
+networks:
+  dokploy-network:
+    external: true

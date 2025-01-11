@@ -32,20 +32,20 @@ app.use(express.json());
 
 app.use(monitoringMiddleware); 
 
-app.use('/api/auth', authRoutes);
+app.use('/auth', authRoutes);
 
 
-app.use('/api/events', eventRoutes);
+app.use('/events', eventRoutes);
 
-app.use('/api/vendors', vendorAssignmentRoutes);
+app.use('/vendors', vendorAssignmentRoutes);
 
-app.use('/api/users',allusers)
+app.use('/users',allusers)
 
-app.use('/api/admin',admin)
+app.use('/admin',admin)
 
-app.use('/api/superadmin',superadmin)
+app.use('/superadmin',superadmin)
 
-app.get('/api/dashboard', authenticateToken, (req, res) => {
+app.get('/dashboard', authenticateToken, (req, res) => {
     res.json({ message: `Welcome, ${req.user.role}!` });
 });
 
@@ -55,7 +55,7 @@ app.get("/metrics", async (req, res) => {
   res.send(metrics);
 });
 
-app.get('/api/health', (req, res) => {
+app.get('/health', (req, res) => {
   const response = {
       status: "healthy",
       version: "1.0.0",
@@ -65,7 +65,7 @@ app.get('/api/health', (req, res) => {
   res.status(200).json(response);
 });
 
-app.get('/api/testdeployment', (req, res) => {
+app.get('/testdeployment', (req, res) => {
   console.log(process.env.ENV_TEST || 'not working!')
   const response = {
       status: "test ok",
@@ -76,7 +76,7 @@ app.get('/api/testdeployment', (req, res) => {
   res.status(200).json(response);
 });
 
-app.post('/api/createAdmin', authenticateToken, async (req, res) => {
+app.post('/createAdmin', authenticateToken, async (req, res) => {
     
     const { company_name, adminId, company_address, GST_Number, company_email, company_helplline_number } = req.body;
 
@@ -114,7 +114,7 @@ app.post('/api/createAdmin', authenticateToken, async (req, res) => {
 
 });
 
-app.get('/api/getallcompany',async (req, res) => {
+app.get('/getallcompany',async (req, res) => {
     
 
     try {
@@ -136,7 +136,7 @@ console.log(companyCheck)
 
 })
 
-app.put('/api/update-admin', async (req, res) => {
+app.put('/update-admin', async (req, res) => {
     const { company_name, new_admin_id } = req.body;
   
     try {
