@@ -70,7 +70,7 @@ jobs:
     steps:
       - name: Trigger Frontend Deployment
         run: |
-          response=$(curl -X POST "https://dokploy.eventdesk.io/api/trpc/application.deploy" \
+          response=$(curl -X POST "https://dokploy.eventdesk.io/api/application.deploy" \
           -H "Authorization: Bearer ${{secrets.DOKPLOY_TOKEN}}" \
           -H "Content-Type: application/json" \
           -d '{
@@ -80,7 +80,7 @@ jobs:
       - name: Trigger Backend Deployment
         run: |
             # Trigger the frontend deployment
-            response=$(curl -X POST "https://dokploy.eventdesk.io/api/application.deploy" \
+            response=$(curl -X POST "https://dokploy.eventdesk.io/api/trpc/application.deploy" \
             -H "Authorization: Bearer ${{secrets.DOKPLOY_TOKEN}}" \
             -H "Content-Type: application/json" \
             -d '{
@@ -88,7 +88,7 @@ jobs:
             }')
             echo "BACKEND HTTP Status Code: $response"
             sleep 5
-            reload_response=$(curl -X POST "https://dokploy.eventdesk.io/api/application.reload" \
+            reload_response=$(curl -X POST "https://dokploy.eventdesk.io/api/trpc/application.reload" \
             -H "Authorization: Bearer ${{secrets.DOKPLOY_TOKEN}}" \
             -H "Content-Type: application/json" \
             -d '{
