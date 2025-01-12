@@ -64,31 +64,31 @@ jobs:
       run: |
         # Push all images defined in your docker-compose.yml to Docker Hub
         docker-compose -f docker-compose.yml push
-  Trigger-Deployement:
-    needs: Test-build-and-push
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install sshpass
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y sshpass
-      - name: Trigger Frontend Deployement
-        run: |
-          sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
+  # Trigger-Deployement:
+  #   needs: Test-build-and-push
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Install sshpass
+  #       run: |
+  #         sudo apt-get update
+  #         sudo apt-get install -y sshpass
+  #     - name: Trigger Frontend Deployement
+  #       run: |
+  #         sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
              
-            response=$(curl -w '%{http_code}' -o response.json -s -X POST "https://dokploy.eventdesk.io/api/compose.deploy" \
-            -H "Authorization: Bearer ${{ secrets.DOKPLOY_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d "{\"composeId\": \"${{ secrets.FRONTEND_COMPOSE_ID }}\"}")
-            echo "FRONTEND HTTP Status Code: $response"
-          EOF
-      - name: Trigger Backend Deployement
-        run: |
-          sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
+  #           response=$(curl -w '%{http_code}' -o response.json -s -X POST "https://dokploy.eventdesk.io/api/compose.deploy" \
+  #           -H "Authorization: Bearer ${{ secrets.DOKPLOY_TOKEN }}" \
+  #           -H "Content-Type: application/json" \
+  #           -d "{\"composeId\": \"${{ secrets.FRONTEND_COMPOSE_ID }}\"}")
+  #           echo "FRONTEND HTTP Status Code: $response"
+  #         EOF
+  #     - name: Trigger Backend Deployement
+  #       run: |
+  #         sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
              
-            response=$(curl -w '%{http_code}' -o response.json -s -X POST "https://dokploy.eventdesk.io/api/compose.deploy" \
-            -H "Authorization: Bearer ${{ secrets.DOKPLOY_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d "{\"composeId\": \"${{ secrets.BACKEND_COMPOSE_ID }}\"}")
-            echo "BACKEND HTTP Status Code: $response"
-          EOF
+  #           response=$(curl -w '%{http_code}' -o response.json -s -X POST "https://dokploy.eventdesk.io/api/compose.deploy" \
+  #           -H "Authorization: Bearer ${{ secrets.DOKPLOY_TOKEN }}" \
+  #           -H "Content-Type: application/json" \
+  #           -d "{\"composeId\": \"${{ secrets.BACKEND_COMPOSE_ID }}\"}")
+  #           echo "BACKEND HTTP Status Code: $response"
+  #         EOF
