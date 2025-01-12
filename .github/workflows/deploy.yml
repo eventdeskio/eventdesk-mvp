@@ -80,15 +80,15 @@ jobs:
       - name: Trigger Backend Deployment
         run: |
             # Trigger the frontend deployment
-            response=$(curl -X POST "https://dokploy.eventdesk.io/api/trpc/application.deploy" \
+            response=$(curl -X POST "https://dokploy.eventdesk.io/api/application.deploy" \
             -H "Authorization: Bearer ${{secrets.DOKPLOY_TOKEN}}" \
             -H "Content-Type: application/json" \
             -d '{
               "applicationId": "${{secrets.BACKEND_APPLICATION_ID}}"
             }')
             echo "BACKEND HTTP Status Code: $response"
-        
-            reload_response=$(curl -X POST "https://dokploy.eventdesk.io/api/trpc/application.reload" \
+            sleep 5
+            reload_response=$(curl -X POST "https://dokploy.eventdesk.io/api/application.reload" \
             -H "Authorization: Bearer ${{secrets.DOKPLOY_TOKEN}}" \
             -H "Content-Type: application/json" \
             -d '{
