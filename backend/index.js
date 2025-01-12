@@ -176,6 +176,6 @@ app.put('/update-admin', async (req, res) => {
 
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(POR, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
