@@ -70,7 +70,7 @@ jobs:
     steps:
       - name: Trigger Frontend Deployment
         run: |
-          response=$(curl -X POST "http://your-dokploy-instance.com/api/application.deploy" \
+          response=$(curl -X POST "http://dokploy.eventdesk.io/api/application.deploy" \
           -H "Authorization: Bearer ${{secrets.DOKPLOY_TOKEN}}" \
           -H "Content-Type: application/json" \
           -d '{
@@ -80,7 +80,7 @@ jobs:
       
       - name: Trigger Backend Deployment
         run: |
-          response=$(curl -X POST "http://your-dokploy-instance.com/api/application.deploy" \
+          response=$(curl -X POST "http://dokploy.eventdesk.io/api/application.deploy" \
           -H "Authorization: Bearer ${{secrets.DOKPLOY_TOKEN}}" \
           -H "Content-Type: application/json" \
           -d '{
