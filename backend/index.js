@@ -69,7 +69,7 @@ app.get('/testdeployment', (req, res) => {
   console.log(process.env.ENV_TEST || 'not working!')
   const response = {
       code: "200",
-      status: "Working TEST",
+      status: "DONE",
       version: "1.0.0",
       environment: process.env.ENV_TEST || "not working!" 
   };
@@ -176,6 +176,6 @@ app.put('/update-admin', async (req, res) => {
 
 
 const PORT = process.env.PORT || 5000;
-app.listen(POT, () => {
+app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
