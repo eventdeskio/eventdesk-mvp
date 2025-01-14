@@ -4,4 +4,4 @@ COPY package.json ./
 RUN npm install --no-cache 
 COPY . .
 EXPOSE 5000
-CMD sleep 10 && npm start
+CMD ["npm", "start"]
