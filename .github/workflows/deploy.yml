@@ -25,7 +25,7 @@ jobs:
     - name: Run tests
       run: |
         cd backend
-        npm test  # Run your unit tests
+        npm test  
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
@@ -86,14 +86,3 @@ jobs:
             "applicationId": "${{secrets.BACKEND_APPLICATION_ID}}"
           }')
           echo "Reload HTTP Status Code: $reload_response"
-            
-      # - name: Trigger Backend Deployment
-      #   run: |
-      #     response=$(curl -X POST "https://dokploy.eventdesk.io/api/trpc/application.deploy" \
-      #     -H "Authorization: Bearer ${{secrets.DOKPLOY_TOKEN}}" \
-      #     -H "Content-Type: application/json" \
-      #     -d '{
-      #       "applicationId": "${{secrets.BACKEND_APPLICATION_ID}}"
-      #     }')
-      #     echo "BACKEND HTTP Status Code: $response"
-      # "appName": "eventdesk-application-backend-z6si5w",  

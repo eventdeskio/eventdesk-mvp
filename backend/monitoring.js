@@ -20,6 +20,19 @@ const userSignupCounter = new client.Counter({
   help: "Total number of user signups",
 });
 
+const reqrestime = new client.Histogram({
+  name: 'eventdesk_request_response_time',
+  help:"Tells backend api's request and response time",
+  labelNames: ["method", "route", "status_code"],
+  buckets:[1,50,100,200,500,800,1000,2000]
+})
+
+const totalReqCounter = new client.Counter({
+  name:'total_req',
+  help:'Total number of requests',
+
+})
+
 const monitoringMiddleware = (req, res, next) => {
   const end = httpRequestDuration.startTimer({
     method: req.method,
@@ -37,6 +50,8 @@ const monitoringMiddleware = (req, res, next) => {
 module.exports = {
   monitoringMiddleware,
   userSignupCounter,
+  reqrestime,
+  totalReqCounter,
   getMetrics: async () => {
     return await client.register.metrics();
   },
