@@ -1,5 +1,5 @@
 # eventdesk-mvp
-# EventDesk - An Event Management System
+# EventDesk - An Event Management System 
 
 **Description**: EventDesk is a comprehensive Angular-based application designed to simplify event planning and management. This platform enables vendors, admins, and users to collaboratively manage events, track progress, and handle requirements efficiently. The system integrates features such as dynamic routing, role-based navigation, email notifications, and a responsive user interface.
 
