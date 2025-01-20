@@ -17,7 +17,7 @@ const {
   contentType,
   totalReqCounter,
 } = require("./monitoring");
-
+const responsetime = require('response-time')
 const { logger } = require("./logging");
  
 const corsOptions = {
