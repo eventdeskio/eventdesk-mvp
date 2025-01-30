@@ -13,8 +13,6 @@ app.use(express.json());
 
 const upload = multer({ dest: "uploads/" });
 
-
-// PostgreSQL Configuration
 const pool = new Pool({
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
@@ -67,28 +65,29 @@ app.post("/upload", upload.single("file"), async (req, res) => {
 });
 
 
-
 app.post("/savedetails", async (req, res) => {
-    const { name, userId, fileLink, description } = req.body;
-  
-    if (!name || !userId || !fileLink)
-      return res.status(400).json({ error: "Missing required fields" });
-  
-    try {
-      const query =
-        "INSERT INTO resumes (name, user_id, file_link, description) VALUES ($1, $2, $3, $4) RETURNING *";
-      const values = [name, userId, fileLink, description];
-  
-      const result = await pool.query(query, values);
-  
-      res.json({
-        message: "Form data saved successfully",
-        data: result.rows[0],
-      });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: error.message });
-    }
-  });
+  const { name, email, mobileNo, linkedinurl, salaryExpecation, socials, role, description, resumeLink } = req.body;
+
+  if (!name || !email || !resumeLink) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  try {
+    const query =
+      "INSERT INTO resumes (name, email, mobileNo, linkedinurl, salaryExpecation, socials, role, description, resumeLink, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *";
+    const values = [name, email, mobileNo, linkedinurl, salaryExpecation, socials, role, description, resumeLink, new Date()];
+
+    const result = await pool.query(query, values);
+
+    res.json({
+      message: "Form data saved successfully",
+      data: result.rows[0],
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 
 app.listen(process.env.SERVER_PORT, () => console.log(`Server running on port ${process.env.SERVER_PORT}`));
