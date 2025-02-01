@@ -3,7 +3,7 @@ name: Build and Deploy App with Docker Compose
 on:
   push:
     branches:
-      - main  
+      - prelaunch  
 
 jobs:
   Test-build-and-push:

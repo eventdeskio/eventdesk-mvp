@@ -131,6 +131,8 @@ dist
 
 
 frontend/.angular
+frontend/node_modules
+
 backend/package-lock.json
 backend/uploads
 backend/startupscript.txt
