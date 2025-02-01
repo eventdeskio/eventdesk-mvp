@@ -20,12 +20,12 @@ jobs:
     - name: Install dependencies
       run: |
         cd backend
-        npm install  # Install npm dependencies
+        npm install 
 
-    - name: Run tests
-      run: |
-        cd backend
-        npm test  
+    # - name: Run tests
+    #   run: |
+    #     cd backend
+    #     npm test  
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3

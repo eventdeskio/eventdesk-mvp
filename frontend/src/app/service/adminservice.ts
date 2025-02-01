@@ -7,7 +7,9 @@ import { FormGroup } from '@angular/forms';
   providedIn: 'root',
 })
 export class AdminService {
-  private apiUrl = 'http://localhost:5000'; 
+  // private apiUrl = 'http://localhost:5000'; 
+  private apiUrl = 'https://eventdesk.io'; 
+
 
   constructor(private http: HttpClient) {}
 
