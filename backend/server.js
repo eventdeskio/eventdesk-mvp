@@ -37,6 +37,39 @@ const drive = google.drive({ version: "v3", auth: oauth2Client });
 
 const FOLDER_ID = process.env.FOLDER_TO_SAVE;
 
+
+
+app.get("/health", (req, res) => {
+  logger.info("Req came on Health route");
+
+  const response = {
+    status: "healthy",
+    version: "1.0.0",
+    environment: process.env.NODE_ENV || "development",
+  };
+
+  res.status(200).json(response);
+});
+
+app.get("/testdeployment", (req, res) => {
+  try {
+    logger.info("Req came on Test route");
+
+    console.log(process.env.ENV_TEST || "not working!");
+    const response = {
+      status: "test ok",
+      version: "1.0.0",
+      environment: process.env.ENV_TEST || "not working!",
+    };
+
+    res.status(200).json(response);
+  } catch (err) {
+    logger.error(err);
+    res.status(500);
+  }
+});
+
+
 app.post("/upload", upload.single("file"), async (req, res) => {
   try {
     const fileMetadata = {
