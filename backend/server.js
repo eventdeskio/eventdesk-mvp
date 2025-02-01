@@ -8,11 +8,42 @@ const { Pool } = require("pg");
 const Joi = require("joi");
 const createDOMPurify = require("isomorphic-dompurify");
 const { JSDOM } = require("jsdom");
+const {
+  monitoringMiddleware,
+  getMetrics,
+  reqrestime,
+  contentType,
+  totalReqCounter,
+} = require("./monitoring");
+const responsetime = require('response-time')
+const { logger } = require("./logging");
+ 
 
 dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+app.use(monitoringMiddleware);
+app.use(
+  responsetime((req, res, time) => {
+    totalReqCounter.inc();
+    reqrestime
+      .labels({
+        method: req.method,
+        route: req.url,
+        status_code: res.statusCode,
+      })
+      .observe(time);
+  })
+);
+
+app.get("/metrics", async (req, res) => {
+  res.setHeader("content-Type", contentType);
+  const metrics = await getMetrics();
+  res.send(metrics);
+});
+
 
 const upload = multer({ dest: "uploads/" });
 const window = new JSDOM("").window;
