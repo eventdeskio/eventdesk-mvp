@@ -8,7 +8,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class AdminService {
   // private apiUrl = 'http://localhost:5000'; 
-  private apiUrl = 'https://eventdesk.io'; 
+  private apiUrl = 'https://api.eventdesk.io'; 
 
 
   constructor(private http: HttpClient) {}
