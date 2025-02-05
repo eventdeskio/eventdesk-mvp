@@ -21,7 +21,7 @@ export class AdminPagePage implements OnInit {
   private readonly adminPassword = '12345';
   sampleData: any[] = [];
   page = 1;
-  limit = 1;
+  limit = 10;
 
   constructor(
     private adminService: AdminService,
@@ -45,10 +45,9 @@ export class AdminPagePage implements OnInit {
         if (response.success) {
           this.sampleData = response.data;
           if (response.count === 0 && this.page > 1) {
-            // Show custom toastr message
             alert('You have reached the end of the page.');
             this.page--;  
-            this.fetchResumes();  // Retry to load data for the previous page
+            this.fetchResumes();  
           }
         }
       },

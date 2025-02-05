@@ -7,8 +7,7 @@ import { FormGroup } from '@angular/forms';
   providedIn: 'root',
 })
 export class AdminService {
-  // private apiUrl = 'http://localhost:5000'; 
-  private apiUrl = 'https://api.eventdesk.io'; 
+  private apiUrl = window.location.origin.includes('localhost') ? 'http://localhost:5000':'https://api.eventdesk.io'; 
 
 
   constructor(private http: HttpClient) {}
@@ -17,35 +16,29 @@ export class AdminService {
     const params = new HttpParams()
       .set('page', page.toString())
       .set('limit', limit.toString());
-
+    console.log(this.apiUrl, window.location.origin,)
     return this.http.get<any>(`${this.apiUrl}/getlist`, { params });
   }
 
   uploadFile(file: File): Observable<any> {
     const formData: FormData = new FormData();
     formData.append('file', file, file.name);
-
-    // Send POST request to upload file
     return this.http.post<any>(`${this.apiUrl}/upload`, formData);
   }
 
-  // API call to save form details after uploading the resume
-  saveDetails(formData: FormGroup, fileLink: string): Observable<any> {
-    // Preparing the data to send to the backend
+  saveDetails(data: any, fileLink: string): Observable<any> {
     const details = {
-      firstName: formData.get('firstName')?.value,
-      lastName: formData.get('lastName')?.value,
-      email: formData.get('email')?.value,
-      phoneNumber: formData.get('phoneNumber')?.value,
-      city: formData.get('city')?.value,
-      state: formData.get('state')?.value,
-      linkedin: formData.get('linkedin')?.value,
-      portfolio: formData.get('portfolio')?.value,
-      resume: fileLink,  // Link to the uploaded file
-      message: formData.get('message')?.value,
+      firstName: data['firstName'],
+      lastName: data['lastName'],
+      email: data['email'],
+      phoneNumber:data['phoneNumber'],
+      city: data['city'],
+      state: data['state'],
+      linkedin: data['linkedin'],
+      portfolio: data['portfolio'],
+      resume: fileLink, 
+      message: data['message'],
     };
-
-    // Send POST request to save the form data
     return this.http.post<any>(`${this.apiUrl}/savedetails`, details);
   }
 }

@@ -12,19 +12,16 @@
   <a class="application-link text-primary fw-regular hover-pointer text-decoration-none" (click)="navigateToHome()">We're Hiring</a>
 </header>
 
-
 <div class="ion-padding">
   <div class="row ">
     <div class="col-5 left-container">
       <img src="../../assets/applicationbg.png" alt="Event Management UI" width="350" height="280" class="me-2">
-
       <h6>Careers at <b class="text-primary">Herocore Technologies</b></h6>
       <h3> <b> Innovate. Build. Transform. </b> </h3>
       <p>We connect <b> talent, technology </b> and <b> opportunity </b> shaping impactful careers and driving
         real-world innovation. Join us in building the future of <b> microSaaS solutions.</b></p>
     </div>
 
-    
     <div class="col-7 right-container">
       <div class="form-container">
         <h2>Explore Career Opportunities with Us</h2>
@@ -38,10 +35,8 @@
           </div>
 
           <div class="form-group">
-            <ion-input label="Email*" formControlName="email" type="email"
-              placeholder="Enter Email Address"></ion-input>
-            <ion-input label="Phone Number*" formControlName="phoneNumber" type="tel"
-              placeholder="00000 00000"></ion-input>
+            <ion-input label="Email*" formControlName="email" type="email" placeholder="Enter Email Address"></ion-input>
+            <ion-input label="Phone Number*" formControlName="phoneNumber" type="tel" placeholder="00000 00000"></ion-input>
           </div>
 
           <div class="form-group">
@@ -50,10 +45,8 @@
           </div>
 
           <div class="form-group">
-            <ion-input label="LinkedIn Profile URL*" formControlName="linkedin"
-              placeholder="Enter LinkedIn URL"></ion-input>
-            <ion-input label="Portfolio Link" formControlName="portfolio"
-              placeholder="Enter Portfolio Link"></ion-input>
+            <ion-input label="LinkedIn Profile URL*" formControlName="linkedin" placeholder="Enter LinkedIn URL"></ion-input>
+            <ion-input label="Portfolio Link" formControlName="portfolio" placeholder="Enter Portfolio Link"></ion-input>
           </div>
 
           <div class="file-upload">
@@ -61,8 +54,11 @@
             <input type="file" (change)="onFileChange($event)" />
           </div>
 
-          <ion-textarea formControlName="message" label="What excites you about this opportunity?"
-            placeholder="Your message..."></ion-textarea>
+          <div class="form-group">
+            <label for="message">What excites you about this opportunity?</label>
+            <textarea id="message"  placeholder="Your message..." class="form-control" (input)="onMessageChange($event)"></textarea>
+
+          </div>
 
           <button class="classic-btn btn btn-primary" expand="block" type="submit">Submit</button>
         </form>
@@ -71,5 +67,4 @@
   </div>
 
   <app-footer id="footer" ></app-footer>
-
 </div>
