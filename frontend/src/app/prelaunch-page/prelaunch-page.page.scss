@@ -1,6 +1,11 @@
 .ion-pad{
     overflow-x: auto;
 }
+
+.navbar{
+    box-shadow: none;
+}
+
 .main-section{
     background-image: url(../../assets/mainbg.png);
     background-size: cover;
@@ -192,5 +197,6 @@
 
     .carousel-image {
         margin-bottom: 10px;
+        width: 80vw;
     }
 }
