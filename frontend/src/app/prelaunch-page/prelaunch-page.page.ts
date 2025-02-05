@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { register } from 'swiper/element/bundle';
 import { FooterComponent } from '../footer/footer.component';
 import { Router } from '@angular/router';
+import { PrelaunchFooterComponent } from '../prelaunch-footer/prelaunch-footer.component';
 
 register(); // Register Swiper Web Component
 
@@ -13,7 +14,7 @@ register(); // Register Swiper Web Component
   templateUrl: './prelaunch-page.page.html',
   styleUrls: ['./prelaunch-page.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule,FooterComponent],
+  imports: [CommonModule, FormsModule, IonicModule,FooterComponent,PrelaunchFooterComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // Needed for Swiper Web Component
 })
 export class PrelaunchPagePage implements OnInit {
@@ -39,5 +40,9 @@ export class PrelaunchPagePage implements OnInit {
 
   navigateToApplication(){
     this.route.navigate(['/application'])
+}
+
+navigateToHome(){
+  this.route.navigate(['/'])
 }
 }
