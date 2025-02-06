@@ -62,10 +62,11 @@
               "outputHashing": "all"
             },
             "development": {
-              "optimization": false,
-              "extractLicenses": false,
+              "optimization": true,
+              "extractLicenses": true,
               "sourceMap": false,
-              "namedChunks": true
+              "namedChunks": true,
+              "outputHashing": "all"
             },
             "ci": {
               "progress": false
